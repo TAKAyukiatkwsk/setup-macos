@@ -49,6 +49,7 @@ cask "adobe-acrobat-reader"
 mas "1Password", id: 443987910
 cask "1password-cli"
 mas "Slack", id: 803453959
+cask "gyazo"
 
 # font
 cask "caskroom/fonts/font-migu-1m"
