@@ -5,25 +5,23 @@ if &compatible
     set nocompatible
 endif
 " Add the dein installation directory into runtimepath
-set runtimepath+=~/.vim/bundles/repos/github.com/Shougo/dein.vim
+set runtimepath+=~/.cache/dein/repos/github.com/Shougo/dein.vim
 
-if dein#load_state('~/.vim/bundles')
-    call dein#begin('~/.vim/bundles')
+if dein#load_state('~/.cache/dein')
+    call dein#begin('~/.cache/dein')
 
-    call dein#add('~/.vim/bundles')
+    call dein#add('~/.cache/dein')
     call dein#add('Shougo/deoplete.nvim')
     if !has('nvim')
         call dein#add('roxma/nvim-yarp')
         call dein#add('roxma/vim-hug-neovim-rpc')
     endif
-    
+    call dein#add('Shougo/deoppet.nvim')
+    call dein#add('Shougo/denite.nvim')
     call dein#add('itchyny/lightline.vim')
     call dein#add('edkolev/tmuxline.vim')
 
-    call dein#add('tpope/vim-obsession')
-    call dein#add('TAKAyukiatkwsk/vim-indent-settings')
-    call dein#add('thinca/vim-ft-markdown_fold')
-    call dein#add('tpope/vim-fugitive')
+    "" Colorscheme
     call dein#add('sjl/badwolf')
 
     call dein#end()
@@ -32,61 +30,59 @@ endif
 
 filetype plugin indent on
 syntax enable
-" }}}
+"}}}
 
 "============================
-" neobundle.vim {{{
+" Neobundle {{{
 "============================
 "if has('vim_starting')
-"    set nocompatible            " Be iMproved
+"    set nocompatible            " be iMproved
 "    set runtimepath+=~/.vim/bundle/neobundle.vim/
 "endif
 "
 "call neobundle#begin(expand('~/.vim/bundle/'))
 "
-"" NeoBundle
+"" Let NeoBundle manage NeoBundle
 "NeoBundleFetch 'Shougo/neobundle.vim'
 "
 "" Misc
-"NeoBundle 'Shougo/vimproc.vim', {
+"NeoBundle 'Shougo/vimproc', {
 "    \ 'build' : {
-"    \     'windows' : 'make -f make_mingw32.mak',
-"    \     'cygwin' : 'make -f make_cygwin.mak',
 "    \     'mac' : 'make -f make_mac.mak',
-"    \     'unix' : 'make_unix.mak',
 "    \   },
 "    \ }
+"NeoBundle 'buftabs'
 "NeoBundle 'Shougo/unite.vim'
 "NeoBundle 'Shougo/neocomplete.vim'
 "NeoBundle 'Shougo/neosnippet'
 "NeoBundle 'Shougo/neosnippet-snippets'
-"NeoBundle 'thinca/vim-quickrun'
+"NeoBundle 'quickrun.vim'
 "NeoBundle 'tyru/open-browser.vim'
+"NeoBundle 'sudo.vim'
+""NeoBundleLazy 'supermomonga/jazzradio.vim', { 'depends' : [ 'Shougo/unite.vim' ] }
 "NeoBundle 'itchyny/lightline.vim'
 "NeoBundle 'edkolev/tmuxline.vim'
-"NeoBundle 'tpope/vim-obsession'
 "
-"
-"" Syntax
+"" Syntax and programing language support
 "NeoBundle 'vim-ruby/vim-ruby'
 "NeoBundle 'tpope/vim-rails'
+"NeoBundle 'Keithbsmiley/rspec.vim'
+""NeoBundle 'alpaca-tc/vim-rsense'
 "NeoBundle 'TAKAyukiatkwsk/vim-mongoid-syntax'
 "NeoBundle 'helino/vim-json'
 "NeoBundle 'plasticboy/vim-markdown'
 "NeoBundle 'nginx.vim'
 "NeoBundle 'rodjek/vim-puppet'
 "NeoBundle 'digitaltoad/vim-jade'
+"NeoBundle 'Elemecca/dockerfile.vim'
 "NeoBundle 'burnettk/vim-angular'
+"NeoBundle 'kchmck/vim-coffee-script'
+"NeoBundle 'kana/vim-filetype-haskell'
+"NeoBundle 'eagletmt/neco-ghc'
 "NeoBundle 'derekwyatt/vim-scala'
-"NeoBundle 'gre/play2vim'
-"NeoBundle 'derekwyatt/vim-sbt'
-"NeoBundle 'othree/html5.vim'
-"NeoBundle 'Keithbsmiley/swift.vim'
-"NeoBundle 'pearofducks/ansible-vim'
+"NeoBundle 'elixir-lang/vim-elixir'
 "" Syntax checking
 "NeoBundle 'scrooloose/syntastic'
-"" Checking coding style
-"NeoBundle 'editorconfig/editorconfig-vim'
 "
 "" Indent
 "NeoBundle 'TAKAyukiatkwsk/vim-indent-settings'
@@ -94,23 +90,33 @@ syntax enable
 "" Folding
 "NeoBundle 'thinca/vim-ft-markdown_fold'
 "
-"" Git
-"NeoBundle 'tpope/vim-fugitive'
-"
 "" Gist
 "NeoBundle 'mattn/webapi-vim'
 "NeoBundle 'mattn/gist-vim'
 "
+"" Git
+"NeoBundle 'tpope/vim-fugitive'
+"NeoBundle 'gregsexton/gitv'
+"
+"" しゃべるvim
+"NeoBundle 'supermomonga/shaberu.vim'
+"
 "" Clipboard
 "NeoBundle 'kana/vim-fakeclip'
+"
+"NeoBundle 'tsukkee/lingr-vim'
+"
+"" Twitter client
+"NeoBundle 'basyura/TweetVim'
+"NeoBundle 'basyura/twibill.vim'
 "
 "" Colorscheme
 "NeoBundle 'sjl/badwolf'
 "
 "call neobundle#end()
 "
-"filetype plugin indent on   " Required!
-" }}}
+"filetype indent plugin on   " required!
+"}}}
 
 "============================
 " indent {{{
@@ -133,22 +139,23 @@ set encoding=utf-8
 set laststatus=2
 " カーソルの位置を表示する
 set ruler
+" バッファ一覧を表示する(buftabs.vim)
+let butabs_in_statusline=1
 " Syntax highlight
 syntax enable
-" tab charcter highlighting
+" tab character highlighting
 augroup highlightTab
     autocmd!
-    autocmd ColorScheme * highlight Tab term=underline ctermbg=DarkGreen guibg=DarkGreen
+    autocmd ColorScheme * highlight Tab term=underline cterm=underline guibg=LightYellow
     autocmd VimEnter,WinEnter * match Tab /	/
 augroup END
 
-" file type
-autocmd BufRead,BufNewFile nginx.conf setlocal filetype=nginx
-
+" Tango vim color scheme
+" http://www.vim.org/scripts/script.php?script_id=1686
+"colorscheme tango
 colorscheme badwolf
 let g:badwolf_darkgutter = 1
 let g:badwolf_tabline = 2
-
 set t_Co=256
 " Available MacOS X clipboard
 set clipboard=unnamed
@@ -175,17 +182,16 @@ nnoremap <Space>s :<C-u>source $MYVIMRC<CR>
 " neocomplete {{{
 "============================
 let g:deoplete#enable_at_startup = 1
-
 "let g:neocomplete#enable_at_startup = 1
 "let g:neocomplete#enable_smart_case = 1
-
-" plugin key-mappings
-imap <C-k>  <Plug>(neosnippet_expand_or_jump)
-smap <C-k>  <Plug>(neosnippet_expand_or_jump)
-
-imap <expr><TAB>    neosnippet#expandable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "\<C-n>" : "\<TAB>"
-smap <expr><TAB>    neosnippet#expandable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-
+"
+"" plugin key-mappings
+"imap <C-k>  <Plug>(neosnippet_expand_or_jump)
+"smap <C-k>  <Plug>(neosnippet_expand_or_jump)
+"
+"imap <expr><TAB>    neosnippet#expandable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "\<C-n>" : "\<TAB>"
+"smap <expr><TAB>    neosnippet#expandable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+"
 "" key-mappings
 "inoremap <expr><CR>     neocomplete#smart_close_popup() . "\<CR>"
 "inoremap <expr><TAB>    pumvisible() ? "\<C-n>" : "\<TAB>"
@@ -193,19 +199,19 @@ smap <expr><TAB>    neosnippet#expandable() ? "\<Plug>(neosnippet_expand_or_jump
 "inoremap <expr><BS>     neocomplete#smart_close_popup() . "\<C-h>"
 "inoremap <expr><C-y>    neocomplete#close_popup()
 "inoremap <expr><C-e>    neocomplete#cancel_popup()
-
-" For snippet_complete marker
-if has('conceal')
-    set conceallevel=2 concealcursor=i
-endif
-
-" disable preview window
-set completeopt-=preview
-
-" rsense
-let g:rsenseHome = expand('$RSENSE_HOME')   " .zshrcなどで$RSENSE_HOMEを定義しておく
-let g:rsenseUseOmniFunc = 1 
-
+"
+"" For snippet_complete marker
+"if has('conceal')
+"    set conceallevel=2 concealcursor=i
+"endif
+"
+"" disable preview window
+"set completeopt-=preview
+"
+"" rsense
+"let g:rsenseHome = expand('$RSENSE_HOME')   " .zshrcなどで$RSENSE_HOMEを定義しておく
+"let g:rsenseUseOmniFunc = 1 
+"
 "if !exists('g:neocomplete#sources#omni#input_patterns')
 "    let g:neocomplete#sources#omni#input_patterns = {}
 "endif
@@ -219,7 +225,10 @@ let g:gist_clip_command = 'xclip -selection clipboard'
 let g:gist_detect_filetype = 1
 let g:gist_get_multiplefile = 1
 " Only :w! updates a gist.
-let g:gist_update_on_write = 2    
+let g:gist_update_on_write = 2
+" TAKAyukiatkwsk settings
+let g:gist_list_split_direction = 'rightbelow'
+let g:gist_list_split_window_height = 5
 " }}}
 
 "============================
@@ -231,7 +240,11 @@ let g:quickrun_config['markdown'] = {
     \ 'outputter': 'browser',
     \ 'cmdopt': '-s'
     \}
-let g:quickrun_config['mkd'] = g:quickrun_config['markdown']
+let g:quickrun_config['mkd'] = {
+    \ 'type': 'markdown/pandoc',    
+    \ 'outputter': 'browser',
+    \ 'cmdopt': '-s'
+    \}
 " }}}
 
 "============================
@@ -240,76 +253,69 @@ let g:quickrun_config['mkd'] = g:quickrun_config['markdown']
 let g:syntastic_mode_map = { 'mode': 'active',
                            \ 'active_filetypes': ['javascript', 'php', 'ruby'],
                            \ 'passive_filetypes': [] }
+let g:syntastic_puppet_checkers = ['puppet', 'puppetlint']
 " }}}
 
 "============================
-" unite.vim {{{
+" powerline {{{
 "============================
-"nnoremap <silent> ff :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
-"nnoremap <silent> fb :<C-u>Unite buffer<CR>
-"nnoremap <silent> fu :<C-u>Unite neobundle/update -log -wrap -auto-quit<CR>
-"nnoremap <silent> ft :<C-u>Unite tab<CR>
-"let g:unite_split_rule = "rightbelow"
-"let g:unite_winheight = 10
-"
-"call unite#custom#profile('files', 'context', {
-"    \ 'start_insert' : 1,
-"    \ 'prompt_direction' : 'top',
-"    \ 'ignorecase' : 1
-"    \ })
+"let g:Powerline_symbols = 'fancy'
+"set rtp+=/usr/local/lib/python3.3/site-packages/powerline/bindings/vim
+" }}}
+"let g:tmuxline_powerline_separators = 0
+
+"============================
+" denite.vim {{{
+"============================
+nnoremap <silent> ff :<C-u>DeniteBufferDir file<CR>
+nnoremap <silent> fb :<C-u>Denite -buffer-name=buffers buffer<CR>
+nnoremap <silent> fc :<C-u>Denite -buffer-name=buffers command_history<CR>
 " }}}
 
 "============================
-" tmuxline {{{
+" vim-markdown {{{
 "============================
-let g:tmuxline_separators = {
-    \ 'left' : '',
-    \ 'left_alt': '>',
-    \ 'right' : '',
-    \ 'right_alt' : '<',
-    \ 'space' : ' '}
-let g:tmuxline_preset = {
-    \'a'       : '#S',
-    \'b'       : '#W',
-    \'c'       : '',
-    \'win'     : '#I > #W',
-    \'cwin'    : '#I-#P > #W',
-    \'x'       : '',
-    \'y'       : '%F < %R',
-    \'z'       : '#H',
-    \'options' : {'status-justify' : 'left'}}
-let g:tmuxline_theme = 'iceberg'
+" use thinca/vim-ft-markdown_fold folding
+let g:vim_markdown_folding_disabled=1
 " }}}
 
 "============================
 " folding {{{
 "============================
 set foldmethod=manual
-autocmd FileType ruby :setlocal foldmethod=indent
-autocmd FileType ruby :setlocal foldlevel=1
-autocmd FileType ruby :setlocal foldnestmax=6
-autocmd FileType vim  :setlocal foldmethod=marker
+autocmd FileType ruby :setlocal foldmethod=indent foldlevel=1 foldnestmax=4
+autocmd FileType vim :setlocal foldmethod=marker
 autocmd FileType git :setlocal foldlevel=99
 autocmd FileType javascript :syntax region foldBraces start=/{/ end=/}/ transparent fold keepend extend
 autocmd FileType javascript :setlocal foldmethod=syntax foldlevel=1
-autocmd FileType scala :setlocal foldmethod=indent
-autocmd FileType scala :setlocal foldlevel=1
-autocmd FileType scala :setlocal foldnestmax=6
+" }}}
+
+
+"============================
+" jazzradio.vim {{{
+"============================
+"if neobundle#tap('jazzradio.vim')
+"  call neobundle#config({
+"        \   'autoload' : {
+"        \     'unite_sources' : [
+"        \       'jazzradio'
+"        \     ],
+"        \     'commands' : [
+"        \       'JazzradioUpdateChannels',
+"        \       'JazzradioStop',
+"        \       {
+"        \         'name' : 'JazzradioPlay',
+"        \         'complete' : 'customlist,jazzradio#channel_id_complete'
+"        \       }
+"        \     ],
+"        \     'function_prefix' : 'jazzradio'
+"        \   }
+"        \ })
+"endif
 " }}}
 
 "============================
-" kobito.app {{{
+" neobundle.vim {{{
 "============================
-" reference: http://qiita.com/Linda_pp/items/ec458977a6552050855b
-function! s:open_kobito()
-    if a:0 == 0
-        call system('open -a Kobito '.expand('%:p'))
-    else
-        call system('open -a Kobito '.join(a:000, ' '))
-    endif
-endfunction
-
-command! -nargs=* Kobito call s:open_kobito(<f-args>)
-command! -nargs=0 KobitoClose call system("osascript -e 'tell application \"Kobito\" to quit'")
-command! -nargs=0 KobitoFocus call system("osascript -e 'tell application \"Kobito\" to activate'")
+let g:neobundle#log_filename = $HOME.'/.vim/tmp/neobundle.log'
 " }}}
