@@ -16,13 +16,18 @@ if dein#load_state('~/.cache/dein')
         call dein#add('roxma/nvim-yarp')
         call dein#add('roxma/vim-hug-neovim-rpc')
     endif
-    call dein#add('Shougo/deoppet.nvim')
     call dein#add('Shougo/denite.nvim')
     call dein#add('itchyny/lightline.vim')
     call dein#add('edkolev/tmuxline.vim')
 
     "" Colorscheme
     call dein#add('sjl/badwolf')
+
+    call dein#add('tpope/vim-obsession')
+    call dein#add('TAKAyukiatkwsk/vim-indent-settings')
+    call dein#add('thinca/vim-ft-markdown_fold')
+    call dein#add('plasticboy/vim-markdown')
+    call dein#add('tpope/vim-fugitive')
 
     call dein#end()
     call dein#save_state()
@@ -146,7 +151,7 @@ syntax enable
 " tab character highlighting
 augroup highlightTab
     autocmd!
-    autocmd ColorScheme * highlight Tab term=underline cterm=underline guibg=LightYellow
+    autocmd ColorScheme * highlight Tab term=underline cterm=DarkGreen guibg=DarkGreen
     autocmd VimEnter,WinEnter * match Tab /	/
 augroup END
 
@@ -270,6 +275,28 @@ let g:syntastic_puppet_checkers = ['puppet', 'puppetlint']
 nnoremap <silent> ff :<C-u>DeniteBufferDir file<CR>
 nnoremap <silent> fb :<C-u>Denite -buffer-name=buffers buffer<CR>
 nnoremap <silent> fc :<C-u>Denite -buffer-name=buffers command_history<CR>
+" }}}
+
+"============================
+" tmuxline {{{
+"============================
+let g:tmuxline_separators = {
+    \ 'left' : '',
+    \ 'left_alt': '>',
+    \ 'right' : '',
+    \ 'right_alt' : '<',
+    \ 'space' : ' '}
+let g:tmuxline_preset = {
+    \'a'       : '#S',
+    \'b'       : '#W',
+    \'c'       : '',
+    \'win'     : '#I > #W',
+    \'cwin'    : '#I-#P > #W',
+    \'x'       : '',
+    \'y'       : '%F < %R',
+    \'z'       : '#H',
+    \'options' : {'status-justify' : 'left'}}
+let g:tmuxline_theme = 'iceberg'
 " }}}
 
 "============================
